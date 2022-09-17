@@ -5,3 +5,7 @@ export function halfOf(x) {
 export function multiply(x, y) {
     return x * y;
 }
+
+export default function () {
+    console.log('I did something')
+};
