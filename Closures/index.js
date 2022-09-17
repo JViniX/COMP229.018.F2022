@@ -5,7 +5,7 @@ function parent() {
       alert (message);
    }
 
-   console.log('Passou aqui');
+   console.log('It is here');
    return child;
 }
 

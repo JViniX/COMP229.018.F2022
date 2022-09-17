@@ -9,9 +9,9 @@
 // document.getElementById("btn1").addEventListener("click", hello);
 
 // //A button object calls the function:
-// document.getElementById("btn2").addEventListener("click", () => {
-//     document.getElementById("demo").innerHTML += "Hello 2";
-// });
+document.getElementById("btn2").addEventListener("click", () => {
+    document.getElementById("demo").innerHTML += "Hello 2";
+});
 
 
 var numbers = [1,2,3,4,5];
