@@ -10,7 +10,7 @@
 //    console.log(user + ' has ' + friends.length + ' friends. They are:');
 //    friends.map(n => console.log(n));
 // }
-// userFriends('John', 'Bob', 'Alice');
+// userFriends('John', 'Bob', 'Alice', 'Joanna', 'Yi Chen');
 
 // Spread
 function userTopFriends(firstFriend, secondFriend, thirdFriends) {
