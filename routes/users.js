@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/julio', function(req, res, next) {
+router.get('/me', function(req, res, next) {
   res.send('Welcome Julio!');
 });
 
