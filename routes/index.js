@@ -12,9 +12,9 @@ router.get('/', function(req, res, next) {
   );
 });
 
-router.get('/julio', function(req, res, next) {
+router.get('/projects', function(req, res, next) {
   res.render('main',  { 
-    title: 'Julio', 
+    title: 'Projects', 
     name: 'Julio'
   });
 });
