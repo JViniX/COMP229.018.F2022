@@ -13,11 +13,24 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/projects', function(req, res, next) {
-  res.render('main',  { 
+  res.render('index',  { 
     title: 'Projects', 
     name: 'Julio'
   });
 });
 
+router.get('/about', function(req, res, next) {
+  res.render('main',  { 
+    title: 'About', 
+    name: 'Julio'
+  });
+});
+
+router.get('/services', function(req, res, next) {
+  res.render('main',  { 
+    title: 'About', 
+    name: 'Julio'
+  });
+});
 
 module.exports = router;
