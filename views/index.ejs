@@ -1,30 +1,10 @@
+<!-- Student ID: 1234568796
+Name: Julio Vinicius
+Data: Oct 01, 2022 -->
+
 <% include partials/header.ejs %>
 
-    <% if (title == "Projects") { %>
-      <div>
-        <p>Projects</p>
-        <table>
-          <tr>
-            <th>Company</th>
-            <th>Contact</th>
-            <th>Country</th>
-          </tr>
-          <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
-          </tr>
-          <tr>
-            <td>Centro comercial Moctezuma</td>
-            <td>Francisco Chang</td>
-            <td>Mexico</td>
-          </tr>
-        </table> 
-      </div>
-    <% } else { %>
-      <div>
-        <p>Services Page</p>
-      </div>
-    <% } %>   
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %> page</p>
 
-    <% include partials/footer.ejs %>
+<% include partials/footer.ejs %>

@@ -1,36 +1,37 @@
+// Student ID: 1234568796
+// Name: Julio Vinicius
+// Data: Oct 01, 2022
+
 var express = require('express');
 var router = express.Router();
+let indexController = require('../controllers/index.controller');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', indexController.home);
+
+// Renders the projects page
+router.get('/projects', indexController.projects);
+
+router.get('/services', indexController.services);
+
+router.get('/about', function(req, res, next) {
   res.render(
     'index', 
     { 
-      title: 'Home', 
-      name: 'Julio'
+      title: 'About Me',
+      name: 'Julio' 
     }
   );
 });
 
-router.get('/projects', function(req, res, next) {
-  res.render('index',  { 
-    title: 'Projects', 
-    name: 'Julio'
-  });
-});
-
-router.get('/about', function(req, res, next) {
-  res.render('main',  { 
-    title: 'About', 
-    name: 'Julio'
-  });
-});
-
-router.get('/services', function(req, res, next) {
-  res.render('main',  { 
-    title: 'About', 
-    name: 'Julio'
-  });
+router.get('/contact', function(req, res, next) {
+  res.render(
+    'index', 
+    { 
+      title: 'Contact',
+      name: 'Julio' 
+    }
+  );
 });
 
 module.exports = router;
