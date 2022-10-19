@@ -42,6 +42,8 @@ module.exports.displayEditPage = (req, res, next) => {
 module.exports.processEditPage = (req, res, next) => {
     let id = req.params.id
 
+    console.log(req.body);
+
     let updatedItem = Inventory({
         _id: req.body.id,
         item: req.body.item,
@@ -55,7 +57,7 @@ module.exports.processEditPage = (req, res, next) => {
         tags: req.body.tags.split(",").map(word => word.trim())
     });
 
-    // console.log(updatedItem);
+    console.log(updatedItem);
 
     Inventory.updateOne({_id: id}, updatedItem, (err) => {
         if(err)
