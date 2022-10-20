@@ -1,4 +1,4 @@
-<%- include ../partials/header.ejs %>
+<%- include ('../partials/header') %>
 
     <!-- <%= InventoryList %> -->
 
@@ -8,8 +8,8 @@
         <h1><%= title %></h1>
         <br>
         <div>
-            <a href="/inventory/add" class="btn btn-primary align-self-end" role="button">
-                <i class="fas fa-plus-circle"></i> 
+            <a href="/inventory/add" class="btn btn-primary align-self-end" role="button">                
+                <i class="fa-solid fa-square-plus"></i>
                 Add a new Item
             </a>                
         </div>
@@ -28,23 +28,23 @@
 
                 <!-- Repeatable Template Row -->
 
-                <% for(let count = 0; count < InventoryList.length; count++) { %>
+                <% for(let i = 0; i < InventoryList.length; i++) { %>
                     <tr>
-                        <td class="text-center"><%= InventoryList[count].item %></td>
-                        <td class="text-center"><%= InventoryList[count].qty %></td>
-                        <td class="text-center"><%= InventoryList[count].status %></td>
+                        <td class="text-center"><%= InventoryList[i].item %></td>
+                        <td class="text-center"><%= InventoryList[i].qty %></td>
+                        <td class="text-center"><%= InventoryList[i].status %></td>
                         <td>
-                            Hight: <%= InventoryList[count].size.h %><br/>
-                            Width: <%= InventoryList[count].size.w %><br/>
-                            UOM: <%= InventoryList[count].size.uom %><br/>
+                            Hight: <%= InventoryList[i].size.h %><br/>
+                            Width: <%= InventoryList[i].size.w %><br/>
+                            UOM: <%= InventoryList[i].size.uom %><br/>
                         </td>
-                        <td class="text-center"><%= InventoryList[count].tags %></td>
+                        <td class="text-center"><%= InventoryList[i].tags %></td>
                         <td class="text-center">
-                            <a href="/inventory/edit/<%= InventoryList[count]._id %>" class="btn btn-primary btn-sm">
+                            <a href="/inventory/edit/<%= InventoryList[i]._id %>" class="btn btn-primary btn-sm">
                             <i class="fas fa-pencil-alt"></i></a>
                         </td>
                         <td class="text-center">
-                            <a href="/inventory/delete/<%= InventoryList[count]._id %>" class="btn btn-danger btn-sm">
+                            <a href="/inventory/delete/<%= InventoryList[i]._id %>" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
@@ -53,4 +53,4 @@
         </div>
     </div>
   </main>
-<%- include ../partials/footer.ejs %>
+<%- include ('../partials/footer') %>

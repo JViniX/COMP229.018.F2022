@@ -7,10 +7,11 @@
   <title><%= title %></title>
   <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
   <link rel='stylesheet' href='/@fortawesome/fontawesome-free/css/all.min.css' />
+  <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
   <!-- Main Nav bar  -->  
-  <nav class="navbar navbar-expand bg-dark navbar-dark">
+  <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="/images/image_logo.JPG" alt="logo" style="width:40px;">
@@ -23,21 +24,21 @@
           <ul class="navbar-nav">
             <li class="nav-item">
               <% if (title == "Home") { %>
-                  <a class="nav-link active" href="/">
+                <a class="nav-link active" href="/">
               <% } else { %>
-                  <a class="nav-link" href="/">
+                <a class="nav-link" href="/">
               <% } %>            
-                  <i class="fas fa-home"></i> Home </a>
+                <i class="fas fa-home"></i> Home
               </a>
             </li>
             <li class="nav-item">
               <% if (title == "Projects") { %>
-                  <a class="nav-link active" href="/projects">
+                <a class="nav-link active" href="/projects">
               <% } else { %>
-                  <a class="nav-link" href="/projects">
+                <a class="nav-link" href="/projects">
               <% } %>            
-                  <i class="fas fa-home"></i> Projects </a>
-              </a>
+                <i class="fa-solid fa-diagram-project"></i> Projects 
+              </a>  
             </li>
             <li class="nav-item">
               <% if (title == "About") { %>
@@ -45,20 +46,32 @@
               <% } else { %>
                   <a class="nav-link" href="/about">
               <% } %>            
-                  <i class="fas fa-home"></i> About </a>
-              </a>
-            </li>   
-            <li class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-home"></i> Inventory
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/inventory/add">Add Inventory</a>
-                <a class="dropdown-item" href="/inventory/list">
-                  Inventory List
+                <i class="fa-solid fa-circle-info"></i> About
                 </a>
-              </div>
-          </li>                    
+            </li>            
+            <li class="nav-item dropdown">
+              <% if (title == "Inventory List" || title == "Add a new Item") { %>
+                <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">                  
+              <% } else { %>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <% } %>
+                  <i class="fa-solid fa-barcode"></i> Inventory 
+                </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/inventory/list">
+                    <i class="fa-regular fa-rectangle-list"></i> 
+                    Inventory List
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/inventory/add">
+                    <i class="fa-solid fa-square-plus"></i>
+                    Add a new Item
+                  </a>
+                </li>
+              </ul>
+            </li>
             <li class="nav-item">
               <% if (title == "Users") { %>
                   <a class="nav-link active" href="/users">
@@ -66,9 +79,18 @@
                   <a class="nav-link" href="/users">
               <% } %>            
                   <i class="fas fa-user"></i> Users </a>
-              </a>
+              </a>            
+            <li class="nav-item">  
+              <% if (typeof userName == 'string' && userName) { %>
+                <a class="nav-link" href="/users/signout" onclick="return confirm('Are you sure?')">Sign Out (<%= userName %>)</a>
+              <% } else { %>
+                <a class="nav-link" href="/users/signin">Signin</a>
+              <% } %>            
             </li> 
           </ul>
         </div>
       </div>
     </nav>
+    <br>
+    <br>
+    <br>
