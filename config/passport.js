@@ -1,9 +1,10 @@
 const passport = require('passport');
+const User = require('../models/user');
 
 module.exports = function() {
-  const User = require('../models/user');
   
   passport.serializeUser((user, done) => {
+    console.log('=====> serializeUser');
     done(null, user.id);
   });
 
@@ -11,6 +12,7 @@ module.exports = function() {
     User.findOne({
       _id: id
     }, '-password -salt', (err, user) => {
+      console.log('=====> deserializeUser');
       done(err, user);
     });
   });

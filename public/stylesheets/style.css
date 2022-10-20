@@ -1,25 +1,22 @@
 /* Student ID: 1234568796
 Name: Julio Vinicius
 Data: Oct 01, 2022 */
-
 html {
   position: relative;
   min-height: 100%;
 }
-main {
+body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 30px;
   background-color: #f5f5f5;
+  font-size: small;
 }
 .flash{
   color: red;

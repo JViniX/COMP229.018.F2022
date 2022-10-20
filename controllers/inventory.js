@@ -1,9 +1,9 @@
 // create a reference to the model
-let Inventory = require('../models/inventory');
+let InventoryModel = require('../models/inventory');
 
 module.exports.inventoryList = function(req, res, next) {  
-    Inventory.find((err, inventoryList) => {
-        // console.log(inventoryList);
+    InventoryModel.find((err, inventoryList) => {
+        //console.log(inventoryList);
         if(err)
         {
             return console.error(err);
@@ -12,16 +12,18 @@ module.exports.inventoryList = function(req, res, next) {
         {
             res.render('inventory/list', {
                 title: 'Inventory List', 
-                InventoryList: inventoryList
+                InventoryList: inventoryList,
+                userName: req.user ? req.user.username : ''
             })            
         }
     });
 }
 
 module.exports.displayEditPage = (req, res, next) => {
+    
     let id = req.params.id;
 
-    Inventory.findById(id, (err, itemToEdit) => {
+    InventoryModel.findById(id, (err, itemToEdit) => {
         if(err)
         {
             console.log(err);
@@ -32,7 +34,8 @@ module.exports.displayEditPage = (req, res, next) => {
             //show the edit view
             res.render('inventory/add_edit', {
                 title: 'Edit Item', 
-                item: itemToEdit
+                item: itemToEdit,
+                userName: req.user ? req.user.username : ''
             })
         }
     });
@@ -40,11 +43,10 @@ module.exports.displayEditPage = (req, res, next) => {
 
 
 module.exports.processEditPage = (req, res, next) => {
+
     let id = req.params.id
 
-    console.log(req.body);
-
-    let updatedItem = Inventory({
+    let updatedItem = InventoryModel({
         _id: req.body.id,
         item: req.body.item,
         qty: req.body.qty,
@@ -57,9 +59,7 @@ module.exports.processEditPage = (req, res, next) => {
         tags: req.body.tags.split(",").map(word => word.trim())
     });
 
-    console.log(updatedItem);
-
-    Inventory.updateOne({_id: id}, updatedItem, (err) => {
+    InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
         if(err)
         {
             console.log(err);
@@ -72,13 +72,16 @@ module.exports.processEditPage = (req, res, next) => {
             res.redirect('/inventory/list');
         }
     });
+
 }
 
 
 module.exports.performDelete = (req, res, next) => {
+
     let id = req.params.id;
 
-    Inventory.remove({_id: id}, (err) => {
+
+    InventoryModel.remove({_id: id}, (err) => {
         if(err)
         {
             console.log(err);
@@ -90,20 +93,25 @@ module.exports.performDelete = (req, res, next) => {
             res.redirect('/inventory/list');
         }
     });
+
 }
 
 
 module.exports.displayAddPage = (req, res, next) => {
-    let newItem = Inventory();
+
+    let newItem = InventoryModel();
 
     res.render('inventory/add_edit', {
         title: 'Add a new Item',
-        item: newItem
+        item: newItem,
+        userName: req.user ? req.user.username : ''
     })          
+
 }
 
 module.exports.processAddPage = (req, res, next) => {
-    let newItem = Inventory({
+
+    let newItem = InventoryModel({
         _id: req.body.id,
         item: req.body.item,
         qty: req.body.qty,
@@ -116,7 +124,7 @@ module.exports.processAddPage = (req, res, next) => {
         tags: req.body.tags.split(",").map(word => word.trim())
     });
 
-    Inventory.create(newItem, (err, item) =>{
+    InventoryModel.create(newItem, (err, item) =>{
         if(err)
         {
             console.log(err);
@@ -129,5 +137,5 @@ module.exports.processAddPage = (req, res, next) => {
             res.redirect('/inventory/list');
         }
     });
-
+    
 }
