@@ -1,35 +1,20 @@
 var express = require('express');
+let passport = require('passport');
 var router = express.Router();
 
 let inventoryController = require('../controllers/inventory');
 
-// helper function for guard purposes
-function requireAuth(req, res, next)
-{
-    // check if the user is logged in
-    if(!req.isAuthenticated())
-    {
-        req.session.url = req.originalUrl;
-        return res.redirect('/users/signin');
-    }
-    next();
-}
 
 /* GET list of items */
 router.get('/list', inventoryController.inventoryList);
 
 // Routers for edit
-router.get('/edit/:id', requireAuth, inventoryController.displayEditPage);
-router.post('/edit/:id', requireAuth, inventoryController.processEditPage);
+router.put('/edit/:id', passport.authenticate('tokencheck', { session: false }), inventoryController.processEdit);
 
 // Delete
-router.get('/delete/:id', requireAuth, inventoryController.performDelete);
-
-
-/* GET Route for displaying the Add page - CREATE Operation */
-router.get('/add', requireAuth, inventoryController.displayAddPage);
+router.delete('/delete/:id', passport.authenticate('tokencheck', { session: false }), inventoryController.performDelete);
 
 /* POST Route for processing the Add page - CREATE Operation */
-router.post('/add', requireAuth, inventoryController.processAddPage);
+router.post('/add', passport.authenticate('tokencheck', { session: false }), inventoryController.processAdd);
 
 module.exports = router;
