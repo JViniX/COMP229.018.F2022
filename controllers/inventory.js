@@ -79,7 +79,7 @@ module.exports.performDelete = (req, res, next) => {
 
     let id = req.params.id;
 
-    InventoryModel.remove({_id: id}, (err) => {
+    InventoryModel.deleteOne({_id: id}, (err) => {
         if(err)
         {
             console.log(err);
