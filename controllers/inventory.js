@@ -15,122 +15,163 @@ function getErrorMessage(err) {
     }
 };
 
-module.exports.inventoryList = function(req, res, next) {  
-    InventoryModel.find((err, inventoryList) => {
-        //console.log(inventoryList);
-        if(err)
-        {
-            console.error(err);
+module.exports.inventoryList = async function(req, res, next){  
 
-            res.status(400).json({
-                success: false,
-                message: getErrorMessage(err)
-            });
-        }
-        else
-        {     
-            res.status(200).json(inventoryList);
-        }
-    });
+    try {
+        let inventoryList = await InventoryModel.find().populate({
+            path: 'owner',
+            select: 'firstName lastName email username admin created'
+        });
+
+        res.status(200).json(inventoryList);
+        
+    } catch (error) {
+        return res.status(400).json(
+            { 
+                success: false, 
+                message: getErrorMessage(error)
+            }
+        );
+    }
+    
 }
+
 
 module.exports.processEdit = (req, res, next) => {
 
-    let id = req.params.id;
+    try {
+        let id = req.params.id;
 
-    let updatedItem = InventoryModel({
-        _id: id,
-        item: req.body.item,
-        qty: req.body.qty,
-        status: req.body.status,
-        size : {
-            h: req.body.size.h,
-            w: req.body.size.w,
-            uom: req.body.size.uom,
-        },
-        tags: req.body.tags.split(",").map(word => word.trim())
-    });
-
-    InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
-        if(err)
-        {
-            console.log(err);
-            
-            res.status(400).json({
-                success: false,
-                message: getErrorMessage(err)
-            });
-        }
-        else
-        {
-            // console.log(req.body);
-            res.status(200).json(
-                {
-                    success: true,
-                    message: 'Item updated successfully.'
-                }
-            )
-        }
-    });
+        let updatedItem = InventoryModel({
+            _id: id,
+            item: req.body.item,
+            qty: req.body.qty,
+            status: req.body.status,
+            size : {
+                h: req.body.size.h,
+                w: req.body.size.w,
+                uom: req.body.size.uom,
+            },
+            tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
+        });
+    
+        InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
+            if(err)
+            {
+                console.log(err);
+ 
+                return res.status(400).json(
+                    { 
+                        success: false, 
+                        message: getErrorMessage(err)
+                    }
+                );
+            }
+            else
+            {
+                res.status(200).json(
+                    {
+                        success: true,
+                        message: 'Item updated successfully.'
+                    }
+                )
+            }
+        });
+    } catch (error) {
+        return res.status(400).json(
+            { 
+                success: false, 
+                message: getErrorMessage(error)
+            }
+        );
+    }
 }
 
 
 module.exports.performDelete = (req, res, next) => {
 
-    let id = req.params.id;
+    try {
+        let id = req.params.id;
 
-    InventoryModel.deleteOne({_id: id}, (err) => {
-        if(err)
-        {
-            console.log(err);
+        InventoryModel.remove({_id: id}, (err) => {
+            if(err)
+            {
+                console.log(err);
+ 
+                return res.status(400).json(
+                    { 
+                        success: false, 
+                        message: getErrorMessage(err)
+                    }
+                );
+            }
+            else
+            {
+                res.status(200).json(
+                    {
+                        success: true,
+                        message: 'Item deleted successfully.'
+                    }
+                )
+            }
+        });
+    } catch (error) {
+        return res.status(400).json(
+            { 
+                success: false, 
+                message: getErrorMessage(error)
+            }
+        );
+    }
 
-            res.status(400).json({
-                success: false,
-                message: getErrorMessage(err)
-            });
-        }
-        else
-        {
-            res.status(200).json({
-                success: true,
-                message: "Item removed successfully."
-            });
-        }
-    });
+    
 
 }
 
+
 module.exports.processAdd = (req, res, next) => {
 
-    let newItem = InventoryModel({
-        _id: req.body.id,
-        item: req.body.item,
-        qty: req.body.qty,
-        status: req.body.status,
-        size : {
-            h: req.body.size.h,
-            w: req.body.size.w,
-            uom: req.body.size.uom,
-        },
-        tags: req.body.tags.split(",").map(word => word.trim())
-    });
+    try {
+        let newItem = InventoryModel({
+            _id: req.body.id,
+            item: req.body.item,
+            qty: req.body.qty,
+            status: req.body.status,
+            size : {
+                h: req.body.size.h,
+                w: req.body.size.w,
+                uom: req.body.size.uom,
+            },
+            tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
+        });
 
-    InventoryModel.create(newItem, (err, item) =>{
-        if(err)
-        {
-            console.log(err);
-            
-            res.status(400).json({
-                success: false,
-                message: getErrorMessage(err)
-            });
-        }
-        else
-        {
-            // refresh the book list
-            console.log(item);
-            res.status(200).json(item);
-        }
-    });
+        InventoryModel.create(newItem, (err, item) =>{
+            if(err)
+            {
+                console.log(err);
+
+                return res.status(400).json(
+                    { 
+                        success: false, 
+                        message: getErrorMessage(err)
+                    }
+                );
+            }
+            else
+            {
+                console.log(item);
+                res.status(200).json(item);
+            }
+        });
+    } catch (error) {
+        return res.status(400).json(
+            { 
+                success: false, 
+                message: getErrorMessage(error)
+            }
+        );
+    }   
     
 }
