@@ -53,7 +53,8 @@ module.exports.processEdit = (req, res, next) => {
                 uom: req.body.size.uom,
             },
             tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
-            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
+            // If it does not have an owner it assumes the ownership otherwise it transfers it.
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner 
         });
     
         InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
@@ -94,7 +95,7 @@ module.exports.performDelete = (req, res, next) => {
     try {
         let id = req.params.id;
 
-        InventoryModel.remove({_id: id}, (err) => {
+        InventoryModel.deleteOne({_id: id}, (err) => {
             if(err)
             {
                 console.log(err);
@@ -144,6 +145,7 @@ module.exports.processAdd = (req, res, next) => {
                 uom: req.body.size.uom,
             },
             tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
+            // If it does not have an owner it assumes the ownership otherwise it assigns it.
             owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
         });
 
