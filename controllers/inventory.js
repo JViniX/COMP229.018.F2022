@@ -1,7 +1,6 @@
 // create a reference to the model
 let InventoryModel = require('../models/inventory');
 
-
 function getErrorMessage(err) {    
     if (err.errors) {
         for (let errName in err.errors) {
@@ -23,9 +22,12 @@ module.exports.inventoryList = async function(req, res, next){
             select: 'firstName lastName email username admin created'
         });
 
-        res.status(200).json(inventoryList);
+        // setTimeout(()=>{
+            res.status(200).json(inventoryList);        
+        // },5000);
         
     } catch (error) {
+        console.log(error);
         return res.status(400).json(
             { 
                 success: false, 
@@ -42,6 +44,8 @@ module.exports.processEdit = (req, res, next) => {
     try {
         let id = req.params.id;
 
+        console.log(req.body);
+
         let updatedItem = InventoryModel({
             _id: id,
             item: req.body.item,
@@ -56,16 +60,19 @@ module.exports.processEdit = (req, res, next) => {
             // If it does not have an owner it assumes the ownership otherwise it transfers it.
             // owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner 
         });
+
+        console.log(updatedItem);
     
-        InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
-            if(err)
+        InventoryModel.updateOne({_id: id}, updatedItem, (err, result) => {
+            console.log(err, result);
+            if(err || result.modifiedCount == 0)
             {
                 console.log(err);
  
                 return res.status(400).json(
                     { 
                         success: false, 
-                        message: getErrorMessage(err)
+                        message: err ? getErrorMessage(err): 'Item not found.'
                     }
                 );
             }
@@ -80,6 +87,7 @@ module.exports.processEdit = (req, res, next) => {
             }
         });
     } catch (error) {
+
         return res.status(400).json(
             { 
                 success: false, 
@@ -95,15 +103,14 @@ module.exports.performDelete = (req, res, next) => {
     try {
         let id = req.params.id;
 
-        InventoryModel.deleteOne({_id: id}, (err) => {
-            if(err)
-            {
-                console.log(err);
- 
+        InventoryModel.findByIdAndRemove({_id: id}, {rawResult:true}, (err, result) => {
+            console.log(err, result);
+            if(err || result.value == null)
+            { 
                 return res.status(400).json(
                     { 
                         success: false, 
-                        message: getErrorMessage(err)
+                        message: err ? getErrorMessage(err): 'Item not found.'
                     }
                 );
             }
