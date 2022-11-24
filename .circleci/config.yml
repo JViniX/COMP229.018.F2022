@@ -1,0 +1,42 @@
+version: 2.1
+jobs:
+  deploy:
+    docker:
+      - image: google/cloud-sdk      
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      
+      - run:
+          name: Create app.yaml
+          command: |          
+            echo -e "runtime: nodejs16\nenv_variables:\n  ATLASDB: $ATLASDB\n  SECRETKEY: $SECRETKEY\n" > app.yaml 
+
+      - run:
+          name: Setup Google Cloud CLI
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project comp229018f2022
+            gcloud --quiet config set compute/zone northamerica-northeast1
+
+      - run:
+          name: Deploy the app
+          command: |          
+            gcloud app deploy
+      
+      - run:
+          name: Removes app.yaml
+          command: |          
+            rm app.yaml
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  setup_deploy: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
