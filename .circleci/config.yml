@@ -16,8 +16,8 @@ jobs:
           name: Setup Google Cloud CLI
           command: |
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-            gcloud --quiet config set project [project-id goes here]
-            gcloud --quiet config set compute/zone [region-zone goes here]
+            gcloud --quiet config set project comp229018f2022
+            gcloud --quiet config set compute/zone northamerica-northeast1
 
       - run:
           name: Deploy the app
