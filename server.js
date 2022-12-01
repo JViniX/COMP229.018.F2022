@@ -20,7 +20,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
+var firebase = configFirebase();
 var server = http.createServer(app);
 
 /**
