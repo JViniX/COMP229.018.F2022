@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 let inventoryController = require('../controllers/inventory');
-let authController = require('../controllers/auth');
 
 /* GET list of items */
 router.get('/list', inventoryController.inventoryList);

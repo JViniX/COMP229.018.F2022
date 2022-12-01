@@ -4,18 +4,15 @@
  * Module dependencies.
  */
 
-var dbConfig = require('./config/db');
 var app = require('./config/app');
 var configFirebase = require('./config/firebaseAdmin');
 var debug = require('debug')('comp229.005.f2022:server');
 var http = require('http');
-var passportConfig = require('./config/local');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var fb = configFirebase();
 // var db = dbConfig();
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -30,7 +27,6 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-const passport = passportConfig();
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
