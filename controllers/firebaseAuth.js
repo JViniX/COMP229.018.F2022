@@ -48,7 +48,7 @@ module.exports.signup = function(req, res, next){
 exports.requireAuth = function(req, res, next){
   
     let token = req.header('Authorization').substr(7);
-
+    
     firebase.auth().verifyIdToken(token,true)
     .then((decodedToken) => {
       console.log(decodedToken);    

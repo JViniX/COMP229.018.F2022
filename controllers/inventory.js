@@ -1,5 +1,4 @@
 // create a reference to the model
-let InventoryModel = require('../models/inventory');
 let fb = require('firebase-admin');
 
 function getErrorMessage(err) {    
@@ -141,7 +140,7 @@ module.exports.processAdd = async (req, res, next) => {
             },
             tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
             // If it does not have an owner it assumes the ownership otherwise it assigns it.
-            owner: (req.body.owner == null || req.body.owner == "")? req.payload.uid : req.body.owner
+            // owner: (req.body.owner == null || req.body.owner == "")? req.payload.uid : req.body.owner
         };
 
         let response = await newDoc.set(newItem); 
